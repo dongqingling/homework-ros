@@ -198,6 +198,26 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
+## add a test node for testing add_two_ints_service
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest_gtest(
+  add_two_ints_service_client 
+  test/add_two_ints_service_client.launch 
+  test/add_two_ints_service_client.cpp
+  )
+  target_link_libraries(
+  add_two_ints_service_client  
+  ${catkin_LIBRARIES}
+  )
+  add_dependencies(
+  add_two_ints_service_client
+  add_two_ints_server
+  beginner_tutorials_generate_messages_cpp
+  ${catkin_EXPORTED_TARGETS}
+  )
+endif()
+
 ## Add target talker and listener and their link libraries,dependencies
 add_executable(talker src/talker.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES})
